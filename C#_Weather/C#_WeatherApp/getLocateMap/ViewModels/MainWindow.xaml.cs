@@ -1,17 +1,9 @@
 ﻿using CefSharp;
 using MahApps.Metro.Controls;
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using getLocateMap.Logics;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using System.Web.Script.Serialization;
-using RestSharp;
-using System.Net.Http;
-using System.Threading.Tasks;
+using getLocateMap.ViewModels;
 
 namespace getLocateMap
 {
@@ -24,12 +16,20 @@ namespace getLocateMap
         {
             InitializeComponent();
         }
-        private void browser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
+        public void browser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var map_url = $@"../../api2.html";
             string strHtml = File.ReadAllText(map_url);
             Debug.WriteLine(strHtml);
             browser.LoadHtml(strHtml, "https://www.team-one.com/");
+        }
+
+        private void browser_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var locateMap = new locateMap();
+            locateMap.Owner = Application.Current.MainWindow;
+            locateMap.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            locateMap.ShowDialog();
         }
     }
 }
