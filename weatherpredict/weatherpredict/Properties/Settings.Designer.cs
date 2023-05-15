@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RiverLevelUI.Properties
+namespace weatherpredict.Properties
 {
 
 

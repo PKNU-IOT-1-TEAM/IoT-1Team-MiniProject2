@@ -7,12 +7,12 @@ using System.Windows;
 // 어셈블리에 대한 일반 정보는 다음 특성 집합을 통해 
 // 제어됩니다. 어셈블리와 관련된 정보를 수정하려면
 // 이러한 특성 값을 변경하세요.
-[assembly: AssemblyTitle("RiverLevelUI")]
+[assembly: AssemblyTitle("weatherpredict")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Doruco Tweak by FSMG")]
-[assembly: AssemblyProduct("RiverLevelUI")]
-[assembly: AssemblyCopyright("Copyright © Doruco Tweak by FSMG 2023")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("weatherpredict")]
+[assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

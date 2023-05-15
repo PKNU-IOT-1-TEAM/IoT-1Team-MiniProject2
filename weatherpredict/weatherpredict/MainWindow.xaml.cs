@@ -1,23 +1,33 @@
-﻿using GalaSoft.MvvmLight;
-using MahApps.Metro.Controls;
-using MySql.Data.MySqlClient;
+﻿using MySqlConnector;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace RiverLevelUI
+namespace weatherpredict
 {
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void MetroWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             MySqlConnection conn = new MySqlConnection("Server=pknuiot1team.cghin4qcf4s7.ap-northeast-2.rds.amazonaws.com;Port=3306;Database=miniproject02;Uid=pknuiot1team;Pwd=2V3lhihd8gIQ3krjNMf2;");
 
@@ -45,17 +55,19 @@ namespace RiverLevelUI
                 string VEC = rdr["VEC"].ToString(); // 풍향
                 string WSD = rdr["WSD"].ToString(); // 풍속
 
-                predict = $"{FcstDate.Substring(5,2)}월 {FcstDate.Substring(8, 2)}일 {FcstTime.Substring(0,2)}시 예보" +
+                predict = $"{FcstDate.Substring(5, 2)}월 {FcstDate.Substring(8, 2)}일 {FcstTime.Substring(0, 2)}시 예보" +
                     $"\n기온은 {T1H}℃이며 습도는 {REH}%입니다. 풍향은 {VEC}deg, 풍속은 {WSD}m/s입니다." +
                     $"\n대기는 ";
 
                 if (SKY == "1")
                 {
                     predict += "맑을 것으로 예상됩니다. ";
-                } else if (SKY == "3")
+                }
+                else if (SKY == "3")
                 {
                     predict += "구름이 많을 것으로 예상됩니다. ";
-                } else if(SKY == "4")
+                }
+                else if (SKY == "4")
                 {
                     predict += "흐릴 것으로 예상됩니다. ";
                 }
