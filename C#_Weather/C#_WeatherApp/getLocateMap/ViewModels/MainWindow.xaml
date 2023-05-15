@@ -19,7 +19,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0" Grid.Column="1">
-            <cefSharp:ChromiumWebBrowser x:Name="browser" IsBrowserInitializedChanged="browser_IsBrowserInitializedChanged">
+            <cefSharp:ChromiumWebBrowser x:Name="browser" IsBrowserInitializedChanged="browser_IsBrowserInitializedChanged" MouseDoubleClick="browser_MouseDoubleClick">
             </cefSharp:ChromiumWebBrowser>            
         </Grid>
     </Grid>

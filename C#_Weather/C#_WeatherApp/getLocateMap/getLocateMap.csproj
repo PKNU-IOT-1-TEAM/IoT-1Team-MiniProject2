@@ -216,6 +216,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ViewModels\locateMap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ViewModels\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -225,6 +229,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logics\htmlString.cs" />
+    <Compile Include="ViewModels\locateMap.xaml.cs">
+      <DependentUpon>locateMap.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
