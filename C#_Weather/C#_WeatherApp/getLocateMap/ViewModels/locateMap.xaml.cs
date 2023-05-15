@@ -27,13 +27,5 @@ namespace getLocateMap.ViewModels
         {
             InitializeComponent();
         }
-
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            var map_url = $@"../../api2.html";
-            string strHtml = File.ReadAllText(map_url);
-            Debug.WriteLine(strHtml);
-            browser.LoadHtml(strHtml, "https://www.team-one.com/");
-        }
     }
 }

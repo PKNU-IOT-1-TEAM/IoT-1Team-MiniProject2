@@ -12,6 +12,8 @@ namespace getLocateMap
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        string locate_Html = string.Empty;
+        int height_val = 400;
         public MainWindow()
         {
             InitializeComponent();
@@ -20,7 +22,8 @@ namespace getLocateMap
         {
             var map_url = $@"../../api2.html";
             string strHtml = File.ReadAllText(map_url);
-            Debug.WriteLine(strHtml);
+            locate_Html = strHtml;
+            // Debug.WriteLine(strHtml);
             browser.LoadHtml(strHtml, "https://www.team-one.com/");
         }
 
@@ -29,6 +32,8 @@ namespace getLocateMap
             var locateMap = new locateMap();
             locateMap.Owner = Application.Current.MainWindow;
             locateMap.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            string replace_Locate_Html = locate_Html.Replace("193px", "400px");
+            locateMap.locateMap_browser.LoadHtml(replace_Locate_Html, "https://www.team-one.com/");
             locateMap.ShowDialog();
         }
     }
