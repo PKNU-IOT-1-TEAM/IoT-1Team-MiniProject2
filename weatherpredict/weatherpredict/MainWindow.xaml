@@ -5,12 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:weatherpredict"
         mc:Ignorable="d"
-<<<<<<< Updated upstream
         Title="MainWindow" Height="450" Width="800" Loaded="MetroWindow_Loaded" >
-=======
-        Title="MainWindow" Height="450" Width="800" Loaded="MetroWindow_Loaded">
->>>>>>> Stashed changes
     <Grid>
-        <TextBox x:Name="Txtpredict" Text="예보" />
+        <DataGrid ItemsSource="{Binding ListWeather}" />
     </Grid>
 </Window>
