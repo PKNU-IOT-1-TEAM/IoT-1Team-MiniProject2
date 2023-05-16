@@ -9,8 +9,9 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
-        Title="locateMap" Height="450" Width="800" >
+        Title="locateMap" Height="450" Width="800">
     <Grid>
-        <cefSharp:ChromiumWebBrowser x:Name="locateMap_browser"/>
+        <cefSharp:ChromiumWebBrowser x:Name="locateMap_browser" />
     </Grid>
+
 </mah:MetroWindow>
