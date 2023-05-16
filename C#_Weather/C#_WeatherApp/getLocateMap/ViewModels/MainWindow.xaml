@@ -9,7 +9,7 @@
         xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
         xmlns:local="clr-namespace:getLocateMap"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="800">
+        Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
