@@ -6,6 +6,7 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
         xmlns:local="clr-namespace:getLocateMap"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
@@ -21,6 +22,9 @@
         <Grid Grid.Row="0" Grid.Column="1">
             <cefSharp:ChromiumWebBrowser x:Name="browser" IsBrowserInitializedChanged="browser_IsBrowserInitializedChanged" MouseDoubleClick="browser_MouseDoubleClick">
             </cefSharp:ChromiumWebBrowser>            
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <vlc:VideoView x:Name="CCTV_View"/>
         </Grid>
     </Grid>
 </mah:MetroWindow>
