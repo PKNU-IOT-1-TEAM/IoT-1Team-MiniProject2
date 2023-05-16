@@ -85,15 +85,15 @@ namespace MiniProject_weatherApp
                 }
                 else if (202.5 < fcst.VEC && fcst.VEC < 247.5)
                 {
-                    vvec = "서남향";
+                    vvec = "남서향";
                 }
                 else if (247.5 < fcst.VEC && fcst.VEC < 292.5)
                 {
-                    vvec = "서";
+                    vvec = "서향";
                 }
                 else if (292.5 < fcst.VEC && fcst.VEC < 337.5)
                 {
-                    vvec = "서향";
+                    vvec = "북서향";
                 }
                 else if (337.5 < fcst.VEC || fcst.VEC < 22.5)
                 {
