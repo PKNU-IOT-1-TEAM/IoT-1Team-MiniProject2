@@ -1,0 +1,278 @@
+﻿<mah:MetroWindow
+        x:Class="Nobless_CHIM_SOY_Monitoring.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"    
+        xmlns:local="clr-namespace:Nobless_CHIM_SOY_Monitoring"
+        mc:Ignorable="d"
+        Title="Nobless-CHIM-SOY-Monitoring" Height="700" Width="1000"
+        Loaded="MetroWindow_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <!-- 날씨 -->
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <!-- 기온 -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 하늘 상태 아이콘 -->
+                <Grid Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Image x:Name="ImgWeather" Source="./images/sunny.png" Width="90"/>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="23"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- 업데이트 날짜 시간-->
+                        <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <iconPacks:PackIconMaterialDesign Kind="AccessTime" Height="13" Width="13" VerticalAlignment="Center"/>
+                            <Label x:Name="LblUpdateTime" Content="업데이트 시간" FontSize="10" HorizontalAlignment="Left"/>
+                        </StackPanel>
+
+                        <!-- 하늘 상태 라벨-->
+                        <Label x:Name="LblSkyCon" Grid.Row="1" Content="하늘 상태" FontSize="20"  VerticalAlignment="Bottom"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <!-- 기온 -->
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconUnicons Kind="TemperatureHalf" Foreground="Red"  VerticalAlignment="Center"  Height="28" Width="20"/>
+                            <Label x:Name="LblTemp" Content="23" FontSize="30"   FontWeight="Bold"/>
+                            <iconPacks:PackIconMaterial Kind="TemperatureCelsius"  Height="30" Width="25" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <!-- 습도 바람 강수량-->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <iconPacks:PackIconSimpleIcons Kind="Rainmeter" Margin="10,10,0,10" Width="24" Height="24" Foreground="DeepSkyBlue"/>
+                    <Label Grid.Row="0" Content="습도" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <iconPacks:PackIconFontAwesome Kind="WindSolid" Margin="10,10,0,10" Width="24" Height="24" Foreground="DeepSkyBlue"/>
+                    <Label Grid.Row="0" Content="바람" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <iconPacks:PackIconMaterial Kind="Cup" Margin="10,10,0,10" Width="24" Height="24" Foreground="DeepSkyBlue"/>
+                    <Label Grid.Row="0" Content="강수량" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Label Grid.Row="1" Grid.Column="0" x:Name="TxtReh" FontSize="24" VerticalAlignment="Center" Margin="10,0,10,0"
+                        Content="{Binding Ultrasrtfcst.REH}" HorizontalAlignment="Center"/>
+                <Label Grid.Row="1" Grid.Column="1" x:Name="TxtVec" FontSize="18" VerticalAlignment="Center" Margin="10,0,10,0"
+                        Content="{Binding Ultrasrtfcst.VEC}" HorizontalAlignment="Center" />
+                <Label Grid.Row="1" Grid.Column="2" x:Name="TxtRn1" FontSize="24" VerticalAlignment="Center" Margin="10,0,10,0"
+                        Content="{Binding Ultrasrtfcst.RN1}" HorizontalAlignment="Center"/>
+            </Grid>
+            <!-- 시간별  -->
+            <DataGrid Grid.Row="2" ItemsSource="{Binding Data}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding RowHeader}" Header="Row Header" />
+                    <DataGridTextColumn Binding="{Binding Column1}" Header="Column 1" />
+                    <!-- 추가 열 추가 -->
+                    <DataGridTextColumn Binding="{Binding Column2}" Header="Column 2" />
+                    <!-- 필요한 만큼 열을 추가할 수 있습니다 -->
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </Grid>
+        <!-- 지도, cctv -->
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <!-- 지도-->
+            <Grid Grid.Row="0" Grid.RowSpan="2">
+                <cefSharp:ChromiumWebBrowser x:Name="browser" IsBrowserInitializedChanged="browser_IsBrowserInitializedChanged"/>
+            </Grid>
+            <!-- cctv-->
+            <!--<Grid Grid.Row="1">
+
+            </Grid>-->
+        </Grid>
+        <!-- 강물 수위 데이터 -->
+        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBox x:Name="TxtCmd_under" Text="here" Grid.Row="0" Grid.Column="0"/>
+            <lvc:Gauge x:Name="Onchoenriver_under" Margin="5" Grid.Row="0" Grid.Column="0"
+                           From="0" To="10" LabelsVisibility="Visible" Value="0">
+                <lvc:Gauge.GaugeActiveFill>
+                    <LinearGradientBrush>
+                        <GradientStop Color="Aqua" Offset="0.0" />
+                        <GradientStop Color="GreenYellow" Offset="0.25" />
+                        <GradientStop Color="DarkOrange" Offset="0.5" />
+                    </LinearGradientBrush>
+                </lvc:Gauge.GaugeActiveFill>
+            </lvc:Gauge>
+
+            <TextBox x:Name="Txtalert1_under" Text="here" Grid.Row="0" Grid.Column="1"/>
+            <lvc:Gauge x:Name="Alert1_under" Margin="5" Grid.Row="0" Grid.Column="1"
+                       From="0" To="10" LabelsVisibility="Visible" Value="0">
+
+                <lvc:Gauge.GaugeActiveFill>
+                    <LinearGradientBrush>
+                        <GradientStop Color="Aqua" Offset="0.0" />
+                        <GradientStop Color="GreenYellow" Offset="0.25" />
+                        <GradientStop Color="DarkOrange" Offset="0.5" />
+                    </LinearGradientBrush>
+                </lvc:Gauge.GaugeActiveFill>
+            </lvc:Gauge>
+
+            <TextBox x:Name="Txtalert2_under" Text="here" Grid.Row="0" Grid.Column="2"/>
+            <lvc:Gauge x:Name="Alert2_under" Margin="5" Grid.Row="0" Grid.Column="2"
+                       From="0" To="10" LabelsVisibility="Visible" Value="0">
+
+                <lvc:Gauge.GaugeActiveFill>
+                    <LinearGradientBrush>
+                        <GradientStop Color="Aqua" Offset="0.0" />
+                        <GradientStop Color="GreenYellow" Offset="0.25" />
+                        <GradientStop Color="DarkOrange" Offset="0.5" />
+                    </LinearGradientBrush>
+                </lvc:Gauge.GaugeActiveFill>
+            </lvc:Gauge>
+
+            <TextBox x:Name="Txtalert3_under" Text="here" Grid.Row="0" Grid.Column="3"/>
+            <lvc:Gauge x:Name="Alert3_under" Margin="5" Grid.Row="0" Grid.Column="3"
+                       From="0" To="10" LabelsVisibility="Visible" Value="0">
+
+                <lvc:Gauge.GaugeActiveFill>
+                    <LinearGradientBrush>
+                        <GradientStop Color="Aqua" Offset="0.0" />
+                        <GradientStop Color="GreenYellow" Offset="0.25" />
+                        <GradientStop Color="DarkOrange" Offset="0.5" />
+                    </LinearGradientBrush>
+                </lvc:Gauge.GaugeActiveFill>
+            </lvc:Gauge>
+
+            <TextBox x:Name="Txtalert4_under" Text="here" Grid.Row="0" Grid.Column="4"/>
+            <lvc:Gauge x:Name="Alert4_under" Margin="5" Grid.Row="0" Grid.Column="4"
+                       From="0" To="10" LabelsVisibility="Visible" Value="0">
+
+                <lvc:Gauge.GaugeActiveFill>
+                    <LinearGradientBrush>
+                        <GradientStop Color="Aqua" Offset="0.0" />
+                        <GradientStop Color="GreenYellow" Offset="0.25" />
+                        <GradientStop Color="DarkOrange" Offset="0.5" />
+                    </LinearGradientBrush>
+                </lvc:Gauge.GaugeActiveFill>
+            </lvc:Gauge>
+
+
+            <TextBox x:Name="TxtCmd_north" Text="here" Grid.Row="1" Grid.Column="0"/>
+            <lvc:Gauge x:Name="Onchoenriver_north" Margin="5" Grid.Row="1" Grid.Column="0"
+                       From="0" To="10" LabelsVisibility="Visible" Value="0">
+
+                <lvc:Gauge.GaugeActiveFill>
+                    <LinearGradientBrush>
+                        <GradientStop Color="Aqua" Offset="0.0" />
+                        <GradientStop Color="GreenYellow" Offset="0.25" />
+                        <GradientStop Color="DarkOrange" Offset="0.5" />
+                    </LinearGradientBrush>
+                </lvc:Gauge.GaugeActiveFill>
+            </lvc:Gauge>
+
+            <TextBox x:Name="Txtalert1_north" Text="here" Grid.Row="1" Grid.Column="1"/>
+            <lvc:Gauge x:Name="Alert1_north" Margin="5" Grid.Row="1" Grid.Column="1"
+                       From="0" To="10" LabelsVisibility="Visible" Value="0">
+
+                <lvc:Gauge.GaugeActiveFill>
+                    <LinearGradientBrush>
+                        <GradientStop Color="Aqua" Offset="0.0" />
+                        <GradientStop Color="GreenYellow" Offset="0.25" />
+                        <GradientStop Color="DarkOrange" Offset="0.5" />
+                    </LinearGradientBrush>
+                </lvc:Gauge.GaugeActiveFill>
+            </lvc:Gauge>
+
+            <TextBox x:Name="Txtalert2_north" Text="here" Grid.Row="1" Grid.Column="2"/>
+            <lvc:Gauge x:Name="Alert2_north" Margin="5" Grid.Row="1" Grid.Column="2"
+                       From="0" To="10" LabelsVisibility="Visible" Value="0">
+
+                <lvc:Gauge.GaugeActiveFill>
+                    <LinearGradientBrush>
+                        <GradientStop Color="Aqua" Offset="0.0" />
+                        <GradientStop Color="GreenYellow" Offset="0.25" />
+                        <GradientStop Color="DarkOrange" Offset="0.5" />
+                    </LinearGradientBrush>
+                </lvc:Gauge.GaugeActiveFill>
+            </lvc:Gauge>
+
+            <TextBox x:Name="Txtalert3_north" Text="here" Grid.Row="1" Grid.Column="3"/>
+            <lvc:Gauge x:Name="Alert3_north" Margin="5" Grid.Row="1" Grid.Column="3"
+                       From="0" To="10" LabelsVisibility="Visible" Value="0">
+
+                <lvc:Gauge.GaugeActiveFill>
+                    <LinearGradientBrush>
+                        <GradientStop Color="Aqua" Offset="0.0" />
+                        <GradientStop Color="GreenYellow" Offset="0.25" />
+                        <GradientStop Color="DarkOrange" Offset="0.5" />
+                    </LinearGradientBrush>
+                </lvc:Gauge.GaugeActiveFill>
+            </lvc:Gauge>
+
+            <TextBox x:Name="Txtalert4_north" Text="here" Grid.Row="1" Grid.Column="4"/>
+            <lvc:Gauge x:Name="Alert4_north" Margin="5" Grid.Row="1" Grid.Column="4"
+                       From="0" To="10" LabelsVisibility="Visible" Value="0">
+
+                <lvc:Gauge.GaugeActiveFill>
+                    <LinearGradientBrush>
+                        <GradientStop Color="Aqua" Offset="0.0" />
+                        <GradientStop Color="GreenYellow" Offset="0.25" />
+                        <GradientStop Color="DarkOrange" Offset="0.5" />
+                    </LinearGradientBrush>
+                </lvc:Gauge.GaugeActiveFill>
+            </lvc:Gauge>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>
