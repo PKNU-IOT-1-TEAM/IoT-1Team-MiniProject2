@@ -127,7 +127,7 @@ namespace Nobless_CHIM_SOY_Monitoring
                         imagePath = BaseTime < new TimeSpan(20, 0, 0) ? "./images/cloud.png" : "./images/cloud_night.png";
                         break;
                     case "흐림":
-                        imagePath = "./images/sunny.png";
+                        imagePath = "./images/cloudy.png";
                         break;
                 }
             }
@@ -146,10 +146,10 @@ namespace Nobless_CHIM_SOY_Monitoring
                         imagePath = "./images/snow.png";
                         break;
                     case "빗방울":
-                        imagePath = "./images/raindrop.png";
+                        imagePath = "./images/rain_drop.png";
                         break;
                     case "눈날림":
-                        imagePath = "./images/snow_drift.png";
+                        imagePath = "./images/snow_drop.png";
                         break;
                 }
             }
@@ -157,22 +157,30 @@ namespace Nobless_CHIM_SOY_Monitoring
         }
 
         // 지도
-        private void browser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
+        //private void browser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
+        //{
 
-            var map_url = $@"../../api2.html";
-            string strHtml = File.ReadAllText(map_url);
-            Debug.WriteLine(strHtml);
-            browser.LoadHtml(strHtml, "https://www.team-one.com/");
-        }
+        //    var map_url = $@"../../api2.html";
+        //    string strHtml = File.ReadAllText(map_url);
+        //    Debug.WriteLine(strHtml);
+        //    browser.LoadHtml(strHtml, "https://www.team-one.com/");
+        //}
 
         // 새로고침 DB 업데이트
-        private void PackIconMaterialDesign_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private async void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            //if ((string)LblUpdateTime.Content == temp)
+            //{
+            //    //        await Commons.ShowMessageAsync("업데이트", "최근시간 입니다.");
+
+            //    return;
+            //}
             RequestForecastWebApi forecastApiInfo = new RequestForecastWebApi();
             PushDB pushDB = new PushDB();
             pushDB.InsertDB(forecastApiInfo.GetForecastWebApi());
             Debug.WriteLine("업데이트");
+            MetroWindow_Loaded(sender, new RoutedEventArgs());
+            await Commons.ShowMessageAsync("업데이트", "최근시간으로 업데이트 완료.");
         }
     }
 }

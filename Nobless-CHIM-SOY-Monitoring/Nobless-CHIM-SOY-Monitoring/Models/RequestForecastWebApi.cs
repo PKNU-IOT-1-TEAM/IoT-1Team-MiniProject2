@@ -45,15 +45,15 @@ namespace Forecast_API.Models
 
             if (DateTime.Now.Minute >= 45)  // 매시각 현재 45분 이상이면
             {
-                BaseTime = $"{DateTime.Now.Hour}30";    // 현재 시, 30분
-            }       
+                BaseTime = $"{DateTime.Now.ToString("HH")}30";    // 현재 시, 30분
+            }
             else  // 매시각 45분 이전이면
             {
-                BaseTime = $"{DateTime.Now.Hour - 1}30"; // 1시간 전, 30분
                 if (DateTime.Now.Hour == 0) // 오전 0시 30분 이전이면 날짜도 하루전으로 바꾸기
                 {
                     BaseDate = DateTime.Now.AddDays(-1).ToString("yyyyMMdd");
                 }
+                BaseTime = $"{DateTime.Now.AddHours(-1).ToString("HH")}30"; // 1시간 전, 30분
             }
             Debug.WriteLine(BaseDate, BaseTime);
         }

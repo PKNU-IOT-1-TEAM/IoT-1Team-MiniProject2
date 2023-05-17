@@ -37,7 +37,7 @@
 
                 <!-- 하늘 상태 아이콘 -->
                 <Grid Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Image x:Name="ImgWeather" Source="./images/sunny.png" Width="90"/>
+                    <Image x:Name="ImgWeather" Source="./images/sunny.png" Width="90" Margin="0,0,5,0"/>
                 </Grid>
 
                 <Grid Grid.Column="1">
@@ -54,9 +54,15 @@
 
                         <!-- 업데이트 날짜 시간-->
                         <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
-                            <iconPacks:PackIconMaterialDesign Kind="AccessTime" Height="13" Width="13" VerticalAlignment="Center" MouseDoubleClick="PackIconMaterialDesign_MouseDoubleClick"/>
-                            <Label x:Name="LblUpdateDate" Content="{Binding BaseDate}" FontSize="10" HorizontalAlignment="Left"/>
-                            <Label x:Name="LblUpdateTime" Content="{Binding BaseTime}" FontSize="10" HorizontalAlignment="Left"/>
+                            <Button x:Name="BtnUpdate" Click="BtnUpdate_Click">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <iconPacks:PackIconMaterialDesign Kind="AccessTime" Height="13" Width="13"  VerticalAlignment="Center"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Label x:Name="LblUpdateTime" Content="생성시간" FontSize="10" HorizontalAlignment="Left"/>
+                            
                         </StackPanel>
 
                         <!-- 하늘 상태 라벨-->
@@ -129,9 +135,9 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <!-- 지도-->
-            <Grid Grid.Row="0" Grid.RowSpan="2">
+            <!--<Grid Grid.Row="0" Grid.RowSpan="2">
                 <cefSharp:ChromiumWebBrowser x:Name="browser" IsBrowserInitializedChanged="browser_IsBrowserInitializedChanged"/>
-            </Grid>
+            </Grid>-->
             <!-- cctv-->
             <!--<Grid Grid.Row="1">
 
