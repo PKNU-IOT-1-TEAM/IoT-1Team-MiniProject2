@@ -38,17 +38,30 @@ namespace Nobless_CHIM_SOY_Monitoring
 
         private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            ForecastUI dataUi = new ForecastUI();
+            ForecastUI dataUi = null;
 
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(Commons.myConnString))
                 {
                     if (conn.State == ConnectionState.Closed) conn.Open();
-                    // 기온 파트 쿼리
+                    // 기온, 바람, 파트 쿼리
                     var query = @"SELECT BaseDate,
 	                                     BaseTime,
 	                                     T1H,
+                                         RN1,
+                                         REH,
+                                         CASE
+		                                     WHEN VEC BETWEEN 22.5 AND 67.5 THEN '북동향'
+		                                     WHEN VEC BETWEEN 67.6 AND 112.5 THEN '동향'
+                                             WHEN VEC BETWEEN 112.6 AND 157.5 THEN '남동향'
+                                             WHEN VEC BETWEEN 157.6 AND 202.5 THEN '남향'
+                                             WHEN VEC BETWEEN 202.6 AND 247.5 THEN '남서향'
+                                             WHEN VEC BETWEEN 247.6 AND 292.5 THEN '서향'
+                                             WHEN VEC BETWEEN 292.6 AND 337.5 THEN '북서향'
+                                             WHEN VEC > 337.5 OR VEC < 22.5 THEN '북향'
+	                                     END AS VEC,             
+                                         WSD,
 	                                     PTYCondition,
 	                                     SkyCondition
 	                                     FROM ultrasrtfcst 
@@ -64,14 +77,20 @@ namespace Nobless_CHIM_SOY_Monitoring
 
                     if (reader.Read())
                     {
-
-                        dataUi.BaseDate = reader.GetDateTime("BaseDate");
-                        dataUi.BaseTime = reader.GetTimeSpan("BaseTime");
-                        dataUi.T1H = reader.GetInt32("T1H");
-                        dataUi.SKYCondition = reader.GetString("SkyCondition");
-                        dataUi.PTYCondition = reader.GetString("PTYCondition");
+                        dataUi = new ForecastUI
+                        {
+                            BaseDate = reader.GetDateTime("BaseDate"),
+                            BaseTime = reader.GetTimeSpan("BaseTime"),
+                            T1H = reader.GetInt32("T1H"),
+                            RN1 = reader.GetString("RN1"),
+                            REH = reader.GetInt32("REH"),
+                            VEC = reader.GetString("VEC"),
+                            WSD = reader.GetInt32("WSD"),
+                            SKYCondition = reader.GetString("SkyCondition"),
+                            PTYCondition = reader.GetString("PTYCondition")
+                        };
+                        reader.Close();
                     }
-                    reader.Close();
                 }
             }
             catch (Exception ex)
@@ -79,11 +98,17 @@ namespace Nobless_CHIM_SOY_Monitoring
                 await Commons.ShowMessageAsync("오류", $"DB조회 오류 {ex.Message}");
             }
 
+            
             LblTemp.Content = dataUi.T1H;   // 라벨 온도
             LblUpdateTime.Content = dataUi.BaseDate.ToString("yyyy-MM-dd") + " " + dataUi.BaseTime;    // 라벨 생성 시간
             LblSkyCon.Content = dataUi.PTYCondition == "없음"? dataUi.SKYCondition: dataUi.PTYCondition;
             string imagePath = WeaterImg(dataUi.PTYCondition, dataUi.SKYCondition, dataUi.BaseTime);   // 날씨 이미지
             ImgWeather.Source = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute));
+
+            
+            LblHumid.Content = $"{dataUi.REH}%"; //라벨 습도
+            LblWind.Content = $"{dataUi.VEC} {dataUi.WSD}m/s";  // 라벨 바람
+            LblPrecipitaion.Content = dataUi.RN1 == "강수없음" ? "-" : dataUi.RN1 + "mm";   // 라벨 강수량
         }
 
         // 하늘상태 강수량 상태에 따라 날씨 이미지 선택
@@ -102,7 +127,7 @@ namespace Nobless_CHIM_SOY_Monitoring
                         imagePath = BaseTime < new TimeSpan(20, 0, 0) ? "./images/cloud.png" : "./images/cloud_night.png";
                         break;
                     case "흐림":
-                        imagePath = "./cloudy.png";
+                        imagePath = "./images/sunny.png";
                         break;
                 }
             }
@@ -124,14 +149,14 @@ namespace Nobless_CHIM_SOY_Monitoring
                         imagePath = "./images/raindrop.png";
                         break;
                     case "눈날림":
-                        imagePath = "./images/snow_drift";
+                        imagePath = "./images/snow_drift.png";
                         break;
                 }
             }
             return imagePath;
         }
 
-            // 지도
+        // 지도
         private void browser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
 
@@ -140,6 +165,14 @@ namespace Nobless_CHIM_SOY_Monitoring
             Debug.WriteLine(strHtml);
             browser.LoadHtml(strHtml, "https://www.team-one.com/");
         }
-        
+
+        // 새로고침 DB 업데이트
+        private void PackIconMaterialDesign_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            RequestForecastWebApi forecastApiInfo = new RequestForecastWebApi();
+            PushDB pushDB = new PushDB();
+            pushDB.InsertDB(forecastApiInfo.GetForecastWebApi());
+            Debug.WriteLine("업데이트");
+        }
     }
 }

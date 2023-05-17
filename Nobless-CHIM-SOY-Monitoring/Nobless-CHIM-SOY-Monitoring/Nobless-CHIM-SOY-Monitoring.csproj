@@ -246,6 +246,9 @@
   <ItemGroup>
     <Compile Include="Models\ForecastInfo.cs" />
     <Compile Include="Models\ForecastUI.cs" />
+    <Compile Include="Models\PushDB.cs" />
+    <Compile Include="Models\RequestForecastWebApi.cs" />
+    <Compile Include="Models\ResponseForecastWebApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -279,6 +282,9 @@
     <Content Include="images\cloudy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="images\CloudyNight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="images\cloud_night.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

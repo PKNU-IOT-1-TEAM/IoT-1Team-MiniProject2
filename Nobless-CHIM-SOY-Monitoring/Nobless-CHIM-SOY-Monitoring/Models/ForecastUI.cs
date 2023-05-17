@@ -23,7 +23,7 @@ namespace Nobless_CHIM_SOY_Monitoring.Models
         public string PTYCondition { get; set; } // 강수형태
         public int LGT { get; set; } // 낙뢰
 
-        public int VEC { get; set; } // 풍향
+        public string VEC { get; set; } // 풍향
         public int WSD { get; set; } // 풍속
     }
 }

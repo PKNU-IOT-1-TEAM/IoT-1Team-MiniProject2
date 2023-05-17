@@ -10,7 +10,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"    
         xmlns:local="clr-namespace:Nobless_CHIM_SOY_Monitoring"
         mc:Ignorable="d"
-        Title="Nobless-CHIM-SOY-Monitoring" Height="700" Width="1000"
+        Title="Nobless-CHIM-SOY-Monitoring" Height="800" Width="1000"
         Loaded="MetroWindow_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -24,9 +24,9 @@
         <!-- 날씨 -->
         <Grid Grid.Column="0" Grid.Row="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <!-- 기온 -->
             <Grid Grid.Row="0">
@@ -54,8 +54,9 @@
 
                         <!-- 업데이트 날짜 시간-->
                         <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
-                            <iconPacks:PackIconMaterialDesign Kind="AccessTime" Height="13" Width="13" VerticalAlignment="Center"/>
-                            <Label x:Name="LblUpdateTime" Content="업데이트 시간" FontSize="10" HorizontalAlignment="Left"/>
+                            <iconPacks:PackIconMaterialDesign Kind="AccessTime" Height="13" Width="13" VerticalAlignment="Center" MouseDoubleClick="PackIconMaterialDesign_MouseDoubleClick"/>
+                            <Label x:Name="LblUpdateDate" Content="{Binding BaseDate}" FontSize="10" HorizontalAlignment="Left"/>
+                            <Label x:Name="LblUpdateTime" Content="{Binding BaseTime}" FontSize="10" HorizontalAlignment="Left"/>
                         </StackPanel>
 
                         <!-- 하늘 상태 라벨-->
@@ -83,28 +84,34 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
-                    <iconPacks:PackIconSimpleIcons Kind="Rainmeter" Margin="10,10,0,10" Width="24" Height="24" Foreground="DeepSkyBlue"/>
-                    <Label Grid.Row="0" Content="습도" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
-                    <iconPacks:PackIconFontAwesome Kind="WindSolid" Margin="10,10,0,10" Width="24" Height="24" Foreground="DeepSkyBlue"/>
-                    <Label Grid.Row="0" Content="바람" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
-                    <iconPacks:PackIconMaterial Kind="Cup" Margin="10,10,0,10" Width="24" Height="24" Foreground="DeepSkyBlue"/>
-                    <Label Grid.Row="0" Content="강수량" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+
+                <Border Grid.Column="0" Grid.RowSpan="2" BorderBrush="Gainsboro" BorderThickness="0 0 1 0"/>
+                <Border Grid.Column="1" Grid.RowSpan="2" BorderBrush="Gainsboro" BorderThickness="0 0 1 0"/>
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <iconPacks:PackIconSimpleIcons Kind="Rainmeter" Margin="0, 7, 0, 5" Width="24" Height="24" Foreground="DeepSkyBlue"/>
+                    <Label Content="습도" VerticalAlignment="Bottom" FontSize="20" FontWeight="Bold"/>
                 </StackPanel>
 
-                <Label Grid.Row="1" Grid.Column="0" x:Name="TxtReh" FontSize="24" VerticalAlignment="Center" Margin="10,0,10,0"
-                        Content="{Binding Ultrasrtfcst.REH}" HorizontalAlignment="Center"/>
-                <Label Grid.Row="1" Grid.Column="1" x:Name="TxtVec" FontSize="18" VerticalAlignment="Center" Margin="10,0,10,0"
-                        Content="{Binding Ultrasrtfcst.VEC}" HorizontalAlignment="Center" />
-                <Label Grid.Row="1" Grid.Column="2" x:Name="TxtRn1" FontSize="24" VerticalAlignment="Center" Margin="10,0,10,0"
-                        Content="{Binding Ultrasrtfcst.RN1}" HorizontalAlignment="Center"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <iconPacks:PackIconFontAwesome Kind="WindSolid" Margin="0, 7, 0, 5" Width="24" Height="24" Foreground="DeepSkyBlue"/>
+                    <Label Content="바람" VerticalAlignment="Bottom" FontSize="20" FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <iconPacks:PackIconMaterial Kind="Cup" Margin="0, 7, 0, 5" Width="24" Height="24" Foreground="DeepSkyBlue"/>
+                    <Label Content="강수량" VerticalAlignment="Bottom" FontSize="20" FontWeight="Bold"/>
+                </StackPanel>
+
+                <Label Grid.Row="1" Grid.Column="0" x:Name="LblHumid" FontSize="20" VerticalAlignment="Top"
+                        Content="100%" HorizontalAlignment="Center"/>
+                <Label Grid.Row="1" Grid.Column="1" x:Name="LblWind" FontSize="20" VerticalAlignment="Top"
+                        Content="100m/s" HorizontalAlignment="Center" />
+                <Label Grid.Row="1" Grid.Column="2" x:Name="LblPrecipitaion" FontSize="20" VerticalAlignment="Top"
+                        Content="100%" HorizontalAlignment="Center"/>
             </Grid>
+            
             <!-- 시간별  -->
-            <DataGrid Grid.Row="2" ItemsSource="{Binding Data}" AutoGenerateColumns="False">
+            <DataGrid Grid.Row="2" ItemsSource="{Binding Data}" AutoGenerateColumns="False" Margin="5,10">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding RowHeader}" Header="Row Header" />
                     <DataGridTextColumn Binding="{Binding Column1}" Header="Column 1" />
