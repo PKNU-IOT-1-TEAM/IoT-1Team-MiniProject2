@@ -290,6 +290,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="TextFile1.http" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
