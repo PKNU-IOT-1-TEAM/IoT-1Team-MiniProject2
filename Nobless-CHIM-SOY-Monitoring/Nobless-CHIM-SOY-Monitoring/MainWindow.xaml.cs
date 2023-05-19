@@ -108,7 +108,7 @@ namespace Nobless_CHIM_SOY_Monitoring
             
             LblHumid.Content = $"{dataUi.REH}%"; //라벨 습도
             LblWind.Content = $"{dataUi.VEC} {dataUi.WSD}m/s";  // 라벨 바람
-            LblPrecipitaion.Content = dataUi.RN1 == "강수없음" ? "-" : dataUi.RN1 + "mm";   // 라벨 강수량
+            LblPrecipitaion.Content = dataUi.RN1 == "강수없음" ? "-" : dataUi.RN1;   // 라벨 강수량
         }
 
         // 하늘상태 강수량 상태에 따라 날씨 이미지 선택
@@ -157,17 +157,17 @@ namespace Nobless_CHIM_SOY_Monitoring
         }
 
         // 지도
-        //private void browser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
-        //{
+        private void browser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
 
-        //    var map_url = $@"../../api2.html";
-        //    string strHtml = File.ReadAllText(map_url);
-        //    Debug.WriteLine(strHtml);
-        //    browser.LoadHtml(strHtml, "https://www.team-one.com/");
-        //}
+            var map_url = $@"../../api2.html";
+            string strHtml = File.ReadAllText(map_url);
+            Debug.WriteLine(strHtml);
+            browser.LoadHtml(strHtml, "https://www.team-one.com/");
+        }
 
         // 새로고침 DB 업데이트
-        private async void BtnUpdate_Click(object sender, RoutedEventArgs e)
+        public async void UpdateDB()
         {
             //if ((string)LblUpdateTime.Content == temp)
             //{
@@ -179,7 +179,7 @@ namespace Nobless_CHIM_SOY_Monitoring
             PushDB pushDB = new PushDB();
             pushDB.InsertDB(forecastApiInfo.GetForecastWebApi());
             Debug.WriteLine("업데이트");
-            MetroWindow_Loaded(sender, new RoutedEventArgs());
+            MetroWindow_Loaded(this, new RoutedEventArgs());
             await Commons.ShowMessageAsync("업데이트", "최근시간으로 업데이트 완료.");
         }
     }

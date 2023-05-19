@@ -48,21 +48,14 @@
 
                     <Grid Grid.Row="0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="23"/>
+                            <RowDefinition Height="30"/>
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
 
                         <!-- 업데이트 날짜 시간-->
                         <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
-                            <Button x:Name="BtnUpdate" Click="BtnUpdate_Click">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <iconPacks:PackIconMaterialDesign Kind="AccessTime" Height="13" Width="13"  VerticalAlignment="Center"/>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                            <Label x:Name="LblUpdateTime" Content="생성시간" FontSize="10" HorizontalAlignment="Left"/>
-                            
+                            <iconPacks:PackIconMaterialDesign Kind="AccessTime" Height="10" Width="10"  VerticalAlignment="Center"/>
+                            <Label x:Name="LblUpdateTime" Content="생성시간" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </StackPanel>
 
                         <!-- 하늘 상태 라벨-->
@@ -135,13 +128,13 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <!-- 지도-->
-            <!--<Grid Grid.Row="0" Grid.RowSpan="2">
+            <Grid Grid.Row="0" Grid.RowSpan="2">
                 <cefSharp:ChromiumWebBrowser x:Name="browser" IsBrowserInitializedChanged="browser_IsBrowserInitializedChanged"/>
-            </Grid>-->
+            </Grid>
             <!-- cctv-->
-            <!--<Grid Grid.Row="1">
+            <Grid Grid.Row="1">
 
-            </Grid>-->
+            </Grid>
         </Grid>
         <!-- 강물 수위 데이터 -->
         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
@@ -157,7 +150,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <TextBox x:Name="TxtCmd_under" Text="here" Grid.Row="0" Grid.Column="0"/>
+            <TextBox x:Name="TxtCmd_under" Text="온천천 하부" Grid.Row="0" Grid.Column="0"/>
             <lvc:Gauge x:Name="Onchoenriver_under" Margin="5" Grid.Row="0" Grid.Column="0"
                            From="0" To="10" LabelsVisibility="Visible" Value="0">
                 <lvc:Gauge.GaugeActiveFill>
