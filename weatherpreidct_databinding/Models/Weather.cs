@@ -9,6 +9,6 @@ namespace wp10_employeesApp.Models
         public string T1H { get; set; }
         public string REH { get; set; }
         public string WSD { get; set; }
-        public string Image { get; set; }   
+        public string ImagePath { get; set; }   
     }
 }

@@ -56,13 +56,13 @@ namespace wp10_employeesApp.ViewModels
             }
         }
 
-        public string Image
+        public string ImagePath
         {
-            get => weather.Image;
+            get => weather.ImagePath;
             set
             {
-                weather.Image = value;
-                NotifyOfPropertyChange(nameof(Image));
+                weather.ImagePath = value;
+                NotifyOfPropertyChange(nameof(ImagePath));
             }
         }
 
@@ -78,13 +78,13 @@ namespace wp10_employeesApp.ViewModels
                 switch (SKYCondition)
                 {
                     case "맑음":
-                        imagePath = dateTime.TimeOfDay >= new TimeSpan(20, 0, 0) ? "./sunny.png" : "./sunny_night.png";
+                        imagePath = dateTime.TimeOfDay >= new TimeSpan(20, 0, 0) ? "\\images\\sunny.png" : "\\images\\sunny_night.png";
                         break;
                     case "구름많음":
-                        imagePath = dateTime.TimeOfDay >= new TimeSpan(20, 0, 0) ? "./cloud.png" : "./cloud_night.png";
+                        imagePath = dateTime.TimeOfDay >= new TimeSpan(20, 0, 0) ? "\\images\\cloud.png" : "\\images\\cloud_night.png";
                         break;
                     case "흐림":
-                        imagePath = "./cloudy.png";
+                        imagePath = "\\images\\cloudy.png";
                         break;
                 }
             }
@@ -93,20 +93,20 @@ namespace wp10_employeesApp.ViewModels
                 switch (PTYCondition)
                 {
                     case "비":
-                        imagePath = "./rain.png";
+                        imagePath = "\\images\\rain.png";
                         break;
                     case "비/눈":
                     case "빗방울눈날림":
-                        imagePath = "./snow_rain.png";
+                        imagePath = "\\images\\snow_rain.png";
                         break;
                     case "눈":
-                        imagePath = "./snow.png";
+                        imagePath = "\\images\\snow.png";
                         break;
                     case "빗방울":
-                        imagePath = "./raindrop.png";
+                        imagePath = "\\images\\raindrop.png";
                         break;
                     case "눈날림":
-                        imagePath = "./snow_drift";
+                        imagePath = "\\images\\snow_drift.png";
                         break;
                 }
             }
@@ -136,12 +136,11 @@ namespace wp10_employeesApp.ViewModels
 
                 while (rdr.Read())
                 {
-
                     var emp = new Weather
                     {
                         FcstTime = rdr["FcstTime"].ToString().Substring(0, 2) + "시",
                         T1H = rdr["T1H"].ToString() + "℃", // 기온 (℃)
-                        Image = WeaterImg(rdr["PTYCondition"].ToString(), rdr["SkyCondition"].ToString(),rdr["BaseTime"].ToString()),
+                        ImagePath = WeaterImg(rdr["PTYCondition"].ToString(), rdr["SkyCondition"].ToString(),rdr["BaseTime"].ToString()),
                         REH = rdr["REH"].ToString() + "%", // 습도 (%)
                         WSD = rdr["WSD"].ToString() + "m/s", // 풍속
                     };

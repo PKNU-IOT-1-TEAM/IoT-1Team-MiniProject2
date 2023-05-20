@@ -10,6 +10,20 @@
     mc:Ignorable="d"
     Title="weather" Height="450" Width="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding ListWeather}" />
+        <DataGrid Name="dataGrid" ItemsSource="{Binding ListWeather}"  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="시간" Binding="{Binding FcstTime}" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding ImagePath}" Width="100" Height="100" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="기온" Binding="{Binding T1H}" />
+                <DataGridTextColumn Header="습도" Binding="{Binding REH}" />
+                <DataGridTextColumn Header="풍속" Binding="{Binding WSD}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </mah:MetroWindow>
