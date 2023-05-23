@@ -307,11 +307,11 @@
     <Error Condition="!Exists('..\packages\cef.redist.x86.113.1.4\build\cef.redist.x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.113.1.4\build\cef.redist.x86.props'))" />
     <Error Condition="!Exists('..\packages\CefSharp.Common.113.1.40\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.113.1.40\build\CefSharp.Common.props'))" />
     <Error Condition="!Exists('..\packages\CefSharp.Common.113.1.40\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.113.1.40\build\CefSharp.Common.targets'))" />
-    <Error Condition="!Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets'))" />
     <Error Condition="!Exists('..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.props'))" />
     <Error Condition="!Exists('..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.targets'))" />
+    <Error Condition="!Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets'))" />
   </Target>
   <Import Project="..\packages\CefSharp.Common.113.1.40\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.113.1.40\build\CefSharp.Common.targets')" />
-  <Import Project="..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets" Condition="Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets')" />
   <Import Project="..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets" Condition="Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets')" />
 </Project>

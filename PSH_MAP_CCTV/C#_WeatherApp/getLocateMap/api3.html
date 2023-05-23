@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset=""utf-8"">
-	<title>지도 위 버튼으로 로드뷰 표시하기</title>
+	<title>지????버튼?�로 로드�??�시?�기</title>
 	<style>
 		#container {overflow:hidden;height:193px;position:relative;}
 		#mapWrapper {width:100%;height:193px;z-index:1;}
@@ -20,194 +20,194 @@
 	<body>
 		<div id=""container"">
 			<div id=""rvWrapper"">
-				<div id=""roadview"" style=""width:100%;height:100%;""></div> <!-- 로드뷰를 표시할 div 입니다 -->
-				<div id=""close"" title=""로드뷰닫기"" onclick=""closeRoadview()""><span class=""img""></span></div>
+				<div id=""roadview"" style=""width:100%;height:100%;""></div> <!-- 로드뷰�? ?�시??div ?�니??-->
+				<div id=""close"" title=""로드뷰닫�?" onclick=""closeRoadview()""><span class=""img""></span></div>
 			</div>
 			<div id=""mapWrapper"">
-				<div id=""map"" style=""width:100%;height:100%""></div> <!-- 지도를 표시할 div 입니다 -->
+				<div id=""map"" style=""width:100%;height:100%""></div> <!-- 지?��? ?�시??div ?�니??-->
 				<div id=""roadviewControl"" onclick=""setRoadviewRoad()""></div>
 			</div>
 		</div>
 
 	<script type=""text/javascript"" src=""//dapi.kakao.com/v2/maps/sdk.js?appkey=a71fd4e07d867d250dec31c7fa8e7742""></script>
 	<script>
-		var overlayOn = false, // 지도 위에 로드뷰 오버레이가 추가된 상태를 가지고 있을 변수
-			container = document.getElementById('container'), // 지도와 로드뷰를 감싸고 있는 div 입니다
-			mapWrapper = document.getElementById('mapWrapper'), // 지도를 감싸고 있는 div 입니다
-			mapContainer = document.getElementById('map'), // 지도를 표시할 div 입니다 
-			rvContainer = document.getElementById('roadview'); //로드뷰를 표시할 div 입니다
+		var overlayOn = false, // 지???�에 로드�??�버?�이가 추�????�태�?가지�??�을 변??
+			container = document.getElementById('container'), // 지?��? 로드뷰�? 감싸�??�는 div ?�니??
+			mapWrapper = document.getElementById('mapWrapper'), // 지?��? 감싸�??�는 div ?�니??
+			mapContainer = document.getElementById('map'), // 지?��? ?�시??div ?�니??
+			rvContainer = document.getElementById('roadview'); //로드뷰�? ?�시??div ?�니??
 
-		var mapCenter = new kakao.maps.LatLng(33.45042 , 126.57091), // 지도의 중심좌표
+		var mapCenter = new kakao.maps.LatLng(33.45042 , 126.57091), // 지?�의 중심좌표
 			mapOption = {
-				center: mapCenter, // 지도의 중심좌표
-				level: 3 // 지도의 확대 레벨
+				center: mapCenter, // 지?�의 중심좌표
+				level: 3 // 지?�의 ?��? ?�벨
 			};
 
-		// 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
+		// 지?��? ?�시??div?� 지???�션?�로 지?��? ?�성?�니??
 		var map = new kakao.maps.Map(mapContainer, mapOption);
 
-		// 로드뷰 객체를 생성합니다 
+		// 로드�?객체�??�성?�니??
 		var rv = new kakao.maps.Roadview(rvContainer); 
 
-		// 좌표로부터 로드뷰 파노라마 ID를 가져올 로드뷰 클라이언트 객체를 생성합니다 
+		// 좌표로�???로드�??�노?�마 ID�?가?�올 로드�??�라?�언??객체�??�성?�니??
 		var rvClient = new kakao.maps.RoadviewClient(); 
 
-		// 로드뷰에 좌표가 바뀌었을 때 발생하는 이벤트를 등록합니다 
+		// 로드뷰에 좌표가 바뀌었????발생?�는 ?�벤?��? ?�록?�니??
 		kakao.maps.event.addListener(rv, 'position_changed', function() {
 
-			// 현재 로드뷰의 위치 좌표를 얻어옵니다 
+			// ?�재 로드뷰의 ?�치 좌표�??�어?�니??
 			var rvPosition = rv.getPosition();
 
-			// 지도의 중심을 현재 로드뷰의 위치로 설정합니다
+			// 지?�의 중심???�재 로드뷰의 ?�치�??�정?�니??
 			map.setCenter(rvPosition);
 
-			// 지도 위에 로드뷰 도로 오버레이가 추가된 상태이면
+			// 지???�에 로드�??�로 ?�버?�이가 추�????�태?�면
 			if(overlayOn) {
-				// 마커의 위치를 현재 로드뷰의 위치로 설정합니다
+				// 마커???�치�??�재 로드뷰의 ?�치�??�정?�니??
 				marker.setPosition(rvPosition);
 			}
 		});
 
-		// 마커 이미지를 생성합니다
+		// 마커 ?��?지�??�성?�니??
 		var markImage = new kakao.maps.MarkerImage(
 			'https://t1.daumcdn.net/localimg/localimages/07/2018/pc/roadview_minimap_wk_2018.png',
 			new kakao.maps.Size(26, 46),
 			{
-				// 스프라이트 이미지를 사용합니다.
-				// 스프라이트 이미지 전체의 크기를 지정하고
+				// ?�프?�이???��?지�??�용?�니??
+				// ?�프?�이???��?지 ?�체???�기�?지?�하�?
 				spriteSize: new kakao.maps.Size(1666, 168),
-				// 사용하고 싶은 영역의 좌상단 좌표를 입력합니다.
-				// background-position으로 지정하는 값이며 부호는 반대입니다.
+				// ?�용?�고 ?��? ?�역??좌상??좌표�??�력?�니??
+				// background-position?�로 지?�하??값이�?부?�는 반�??�니??
 				spriteOrigin: new kakao.maps.Point(705, 114),
 				offset: new kakao.maps.Point(13, 46)
 			}
 		);
 
-		// 드래그가 가능한 마커를 생성합니다
+		// ?�래그�? 가?�한 마커�??�성?�니??
 		var marker = new kakao.maps.Marker({
 			image : markImage,
 			position: mapCenter,
 			draggable: true
 		});
 
-		// 마커에 dragend 이벤트를 등록합니다
+		// 마커??dragend ?�벤?��? ?�록?�니??
 		kakao.maps.event.addListener(marker, 'dragend', function(mouseEvent) {
 
-			// 현재 마커가 놓인 자리의 좌표입니다 
+			// ?�재 마커가 ?�인 ?�리??좌표?�니??
 			var position = marker.getPosition();
 
-			// 마커가 놓인 위치를 기준으로 로드뷰를 설정합니다
+			// 마커가 ?�인 ?�치�?기�??�로 로드뷰�? ?�정?�니??
 			toggleRoadview(position);
 		});
 
-		//지도에 클릭 이벤트를 등록합니다
+		//지?�에 ?�릭 ?�벤?��? ?�록?�니??
 		kakao.maps.event.addListener(map, 'click', function(mouseEvent){
 
-			// 지도 위에 로드뷰 도로 오버레이가 추가된 상태가 아니면 클릭이벤트를 무시합니다 
+			// 지???�에 로드�??�로 ?�버?�이가 추�????�태가 ?�니�??�릭?�벤?��? 무시?�니??
 			if(!overlayOn) {
 				return;
 			}
 
-			// 클릭한 위치의 좌표입니다 
+			// ?�릭???�치??좌표?�니??
 			var position = mouseEvent.latLng;
 
-			// 마커를 클릭한 위치로 옮깁니다
+			// 마커�??�릭???�치�???��?�다
 			marker.setPosition(position);
 
-			// 클락한 위치를 기준으로 로드뷰를 설정합니다
+			// ?�락???�치�?기�??�로 로드뷰�? ?�정?�니??
 			toggleRoadview(position);
 		});
 
-		// 전달받은 좌표(position)에 가까운 로드뷰의 파노라마 ID를 추출하여
-		// 로드뷰를 설정하는 함수입니다
+		// ?�달받�? 좌표(position)??가까운 로드뷰의 ?�노?�마 ID�?추출?�여
+		// 로드뷰�? ?�정?�는 ?�수?�니??
 		function toggleRoadview(position){
 			rvClient.getNearestPanoId(position, 50, function(panoId) {
-				// 파노라마 ID가 null 이면 로드뷰를 숨깁니다
+				// ?�노?�마 ID가 null ?�면 로드뷰�? ?�깁?�다
 				if (panoId === null) {
 					toggleMapWrapper(true, position);
 				} else {
 				 toggleMapWrapper(false, position);
 
-					// panoId로 로드뷰를 설정합니다
+					// panoId�?로드뷰�? ?�정?�니??
 					rv.setPanoId(panoId, position);
 				}
 			});
 		}
 
-		// 지도를 감싸고 있는 div의 크기를 조정하는 함수입니다
+		// 지?��? 감싸�??�는 div???�기�?조정?�는 ?�수?�니??
 		function toggleMapWrapper(active, position) {
 			if (active) {
 
-				// 지도를 감싸고 있는 div의 너비가 100%가 되도록 class를 변경합니다 
+				// 지?��? 감싸�??�는 div???�비가 100%가 ?�도�?class�?변경합?�다 
 				container.className = '';
 
-				// 지도의 크기가 변경되었기 때문에 relayout 함수를 호출합니다
+				// 지?�의 ?�기가 변경되?�기 ?�문??relayout ?�수�??�출?�니??
 				map.relayout();
 
-				// 지도의 너비가 변경될 때 지도중심을 입력받은 위치(position)로 설정합니다
+				// 지?�의 ?�비가 변경될 ??지?�중?�을 ?�력받�? ?�치(position)�??�정?�니??
 				map.setCenter(position);
 			} else {
 
-				// 지도만 보여지고 있는 상태이면 지도의 너비가 50%가 되도록 class를 변경하여
-				// 로드뷰가 함께 표시되게 합니다
+				// 지?�만 보여지�??�는 ?�태?�면 지?�의 ?�비가 50%가 ?�도�?class�?변경하??
+				// 로드뷰�? ?�께 ?�시?�게 ?�니??
 				if (container.className.indexOf('view_roadview') === -1) {
 					container.className = 'view_roadview';
 
-					// 지도의 크기가 변경되었기 때문에 relayout 함수를 호출합니다
+					// 지?�의 ?�기가 변경되?�기 ?�문??relayout ?�수�??�출?�니??
 					map.relayout();
 
-					// 지도의 너비가 변경될 때 지도중심을 입력받은 위치(position)로 설정합니다
+					// 지?�의 ?�비가 변경될 ??지?�중?�을 ?�력받�? ?�치(position)�??�정?�니??
 					map.setCenter(position);
 				}
 			}
 		}
 
-		// 지도 위의 로드뷰 도로 오버레이를 추가,제거하는 함수입니다
+		// 지???�의 로드�??�로 ?�버?�이�?추�?,?�거?�는 ?�수?�니??
 		function toggleOverlay(active) {
 			if (active) {
 				overlayOn = true;
 
-				// 지도 위에 로드뷰 도로 오버레이를 추가합니다
+				// 지???�에 로드�??�로 ?�버?�이�?추�??�니??
 				map.addOverlayMapTypeId(kakao.maps.MapTypeId.ROADVIEW);
 
-				// 지도 위에 마커를 표시합니다
+				// 지???�에 마커�??�시?�니??
 				marker.setMap(map);
 
-				// 마커의 위치를 지도 중심으로 설정합니다 
+				// 마커???�치�?지??중심?�로 ?�정?�니??
 				marker.setPosition(map.getCenter());
 
-				// 로드뷰의 위치를 지도 중심으로 설정합니다
+				// 로드뷰의 ?�치�?지??중심?�로 ?�정?�니??
 				toggleRoadview(map.getCenter());
 			} else {
 				overlayOn = false;
 
-				// 지도 위의 로드뷰 도로 오버레이를 제거합니다
+				// 지???�의 로드�??�로 ?�버?�이�??�거?�니??
 				map.removeOverlayMapTypeId(kakao.maps.MapTypeId.ROADVIEW);
 
-				// 지도 위의 마커를 제거합니다
+				// 지???�의 마커�??�거?�니??
 				marker.setMap(null);
 			}
 		}
 
-		// 지도 위의 로드뷰 버튼을 눌렀을 때 호출되는 함수입니다
+		// 지???�의 로드�?버튼???��??????�출?�는 ?�수?�니??
 		function setRoadviewRoad() {
 			var control = document.getElementById('roadviewControl');
 
-			// 버튼이 눌린 상태가 아니면
+			// 버튼???�린 ?�태가 ?�니�?
 			if (control.className.indexOf('active') === -1) {
 				control.className = 'active';
 
-				// 로드뷰 도로 오버레이가 보이게 합니다
+				// 로드�??�로 ?�버?�이가 보이�??�니??
 				toggleOverlay(true);
 			} else {
 				control.className = '';
 
-				// 로드뷰 도로 오버레이를 제거합니다
+				// 로드�??�로 ?�버?�이�??�거?�니??
 				toggleOverlay(false);
 			}
 		}
 
-		// 로드뷰에서 X버튼을 눌렀을 때 로드뷰를 지도 뒤로 숨기는 함수입니다
+		// 로드뷰에??X버튼???��?????로드뷰�? 지???�로 ?�기???�수?�니??
 		function closeRoadview() {
 			var position = marker.getPosition();
 			toggleMapWrapper(true, position);

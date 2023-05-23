@@ -2,27 +2,15 @@
 using Forecast_API.Logics;
 using MahApps.Metro.Controls;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
 using Forecast_API.Models;
 using Nobless_CHIM_SOY_Monitoring.Models;
-using System.Runtime.InteropServices.ComTypes;
+using LibVLCSharp.Shared;
+using System.Windows.Media.Imaging;
 
 namespace Nobless_CHIM_SOY_Monitoring
 {
@@ -31,9 +19,23 @@ namespace Nobless_CHIM_SOY_Monitoring
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        string CCTV_Url = "http://61.43.246.226:1935/rtplive/cctv_193.stream/playlist.m3u8";
+        LibVLC _libVLC;
+        MediaPlayer _mediaPlayer;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            // cefSharp으로 안띄워지는 CCTV를 띄우기 위한 방법
+            Core.Initialize();
+            // VLC NuGet 패키지를 받아서 비디오 플레이어 역할 할당.
+            _libVLC = new LibVLC();
+            _mediaPlayer = new MediaPlayer(_libVLC);
+
+            CCTV_View.MediaPlayer = _mediaPlayer;
+
+            CCTV_View.MediaPlayer.Play(new Media(_libVLC, new Uri(CCTV_Url)));
         }
 
         private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
@@ -156,15 +158,17 @@ namespace Nobless_CHIM_SOY_Monitoring
             return imagePath;
         }
 
-        // 지도
-        private void browser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
 
-            var map_url = $@"../../api2.html";
-            string strHtml = File.ReadAllText(map_url);
-            Debug.WriteLine(strHtml);
-            browser.LoadHtml(strHtml, "https://www.team-one.com/");
-        }
+
+        // 지도
+        //private void browser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
+        //{
+
+        //    var map_url = $@"../../api2.html";
+        //    string strHtml = File.ReadAllText(map_url);
+        //    Debug.WriteLine(strHtml);
+        //    browser.LoadHtml(strHtml, "https://www.team-one.com/");
+        //}
 
         // 새로고침 DB 업데이트
         public async void UpdateDB()

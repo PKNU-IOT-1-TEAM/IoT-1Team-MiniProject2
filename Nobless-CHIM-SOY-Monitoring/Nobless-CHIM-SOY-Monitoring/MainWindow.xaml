@@ -8,6 +8,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"    
+        xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
         xmlns:local="clr-namespace:Nobless_CHIM_SOY_Monitoring"
         mc:Ignorable="d"
         Title="Nobless-CHIM-SOY-Monitoring" Height="800" Width="1000"
@@ -128,12 +129,13 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <!-- 지도-->
-            <Grid Grid.Row="0" Grid.RowSpan="2">
-                <cefSharp:ChromiumWebBrowser x:Name="browser" IsBrowserInitializedChanged="browser_IsBrowserInitializedChanged"/>
-            </Grid>
+            <!--<Grid Grid.Row="0">-->
+                <!-- <cefSharp:ChromiumWebBrowser x:Name="browser" IsBrowserInitializedChanged="browser_IsBrowserInitializedChanged"/> -->
+            <!--</Grid>-->
             <!-- cctv-->
-            <Grid Grid.Row="1">
-
+            <Grid Grid.Row="0" Grid.RowSpan="2">
+                <Border Grid.Row="1" BorderBrush="Gainsboro" BorderThickness="1"/>
+                <vlc:VideoView x:Name="CCTV_View" BorderThickness="2"/>
             </Grid>
         </Grid>
         <!-- 강물 수위 데이터 -->
