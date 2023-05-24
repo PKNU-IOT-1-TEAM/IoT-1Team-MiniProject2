@@ -11,22 +11,19 @@
         xmlns:vlc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
         xmlns:local="clr-namespace:Nobless_CHIM_SOY_Monitoring"
         mc:Ignorable="d"
-        Title="Nobless-CHIM-SOY-Monitoring" Height="800" Width="1000"
+        Title="Nobless-CHIM-SOY-Monitoring" Height="800" Width="1100"
         Loaded="MetroWindow_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="6*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <!-- 날씨 -->
-        <Grid Grid.Column="0" Grid.Row="0">
+        <!-- 날씨 -->        
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <!-- 기온 -->
@@ -120,26 +117,9 @@
                     <!-- 필요한 만큼 열을 추가할 수 있습니다 -->
                 </DataGrid.Columns>
             </DataGrid>
-
-        </Grid>
-        <!-- 지도, cctv -->
-        <Grid Grid.Column="1" Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <!-- 지도-->
-            <!--<Grid Grid.Row="0">-->
-                <!-- <cefSharp:ChromiumWebBrowser x:Name="browser" IsBrowserInitializedChanged="browser_IsBrowserInitializedChanged"/> -->
-            <!--</Grid>-->
-            <!-- cctv-->
-            <Grid Grid.Row="0" Grid.RowSpan="2">
-                <Border Grid.Row="1" BorderBrush="Gainsboro" BorderThickness="1"/>
-                <vlc:VideoView x:Name="CCTV_View" BorderThickness="2"/>
-            </Grid>
-        </Grid>
-        <!-- 강물 수위 데이터 -->
-        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+            
+            <!-- 강물 수위-->
+            <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -281,6 +261,36 @@
                     </LinearGradientBrush>
                 </lvc:Gauge.GaugeActiveFill>
             </lvc:Gauge>
+        </Grid>
+
+        </Grid>
+        <!-- 지도, cctv -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <!-- cctv-->
+            <Grid Grid.Row="0" Margin="10" x:Name="grid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <vlc:VideoView Grid.Row="0" x:Name="CCTV_View" Margin="0, 4, 0, 4"></vlc:VideoView>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="BtnPlay" Width="545" Click="BtnPlay_Click">
+                        <Image Name="ImgBtnStart" Source="./images/playbutton.png"></Image>
+                </Button>
+                    <Button x:Name="BtnFull" Width="30" Click="BtnFull_Click">
+                    <Image Source="./images/expand.png"></Image>
+                </Button>
+                </StackPanel>
+
+            </Grid>
+            <!-- 지도-->
+            <Grid Grid.Row="1">
+                <cefSharp:ChromiumWebBrowser x:Name="browser" MouseDoubleClick="browser_MouseDoubleClick"/> 
+            </Grid>
         </Grid>
     </Grid>
 </mah:MetroWindow>

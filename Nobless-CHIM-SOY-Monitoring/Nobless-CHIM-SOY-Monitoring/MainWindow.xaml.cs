@@ -11,6 +11,9 @@ using Forecast_API.Models;
 using Nobless_CHIM_SOY_Monitoring.Models;
 using LibVLCSharp.Shared;
 using System.Windows.Media.Imaging;
+using LibVLCSharp.WPF;
+using System.Windows.Controls;
+using Nobless_CHIM_SOY_Monitoring.Views;
 
 namespace Nobless_CHIM_SOY_Monitoring
 {
@@ -19,29 +22,17 @@ namespace Nobless_CHIM_SOY_Monitoring
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        string CCTV_Url = "http://61.43.246.226:1935/rtplive/cctv_193.stream/playlist.m3u8";
-        LibVLC _libVLC;
-        MediaPlayer _mediaPlayer;
-
+        string strHtml; // html 파일 string 값 복사해서 모달 창에 쓰기위해 할당
         public MainWindow()
         {
             InitializeComponent();
-
-            // cefSharp으로 안띄워지는 CCTV를 띄우기 위한 방법
-            Core.Initialize();
-            // VLC NuGet 패키지를 받아서 비디오 플레이어 역할 할당.
-            _libVLC = new LibVLC();
-            _mediaPlayer = new MediaPlayer(_libVLC);
-
-            CCTV_View.MediaPlayer = _mediaPlayer;
-
-            CCTV_View.MediaPlayer.Play(new Media(_libVLC, new Uri(CCTV_Url)));
+            
         }
 
         private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            #region <날씨>
             ForecastUI dataUi = null;
-
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(Commons.myConnString))
@@ -111,9 +102,32 @@ namespace Nobless_CHIM_SOY_Monitoring
             LblHumid.Content = $"{dataUi.REH}%"; //라벨 습도
             LblWind.Content = $"{dataUi.VEC} {dataUi.WSD}m/s";  // 라벨 바람
             LblPrecipitaion.Content = dataUi.RN1 == "강수없음" ? "-" : dataUi.RN1;   // 라벨 강수량
+
+            #endregion
+
+            #region <CCTV>
+
+            // VLC NuGet 패키지를 받아서 비디오 플레이어 역할 할당.
+            // cefSharp으로 안띄워지는 CCTV를 띄우기 위한 방법
+            Core.Initialize();
+            LibVLC _libVLC = new LibVLC();
+            MediaPlayer _mediaPlayer = new MediaPlayer(_libVLC);
+            CCTV_View.MediaPlayer = _mediaPlayer;
+            _mediaPlayer.AspectRatio = "16:9";    // 화면 비율 설정
+            CCTV_View.MediaPlayer.Play(new Media(_libVLC, new Uri(Commons.CCTV_Url)));
+            ImgBtnStart.Source = new BitmapImage(new Uri("./images/stopbutton.png", UriKind.RelativeOrAbsolute));
+            #endregion
+
+            #region <지도
+            var map_url = $@"../../api2.html";
+            strHtml = File.ReadAllText(map_url);
+            // Debug.WriteLine(strHtml);
+            browser.LoadHtml(strHtml, "https://www.team-one.com/");
+            #endregion
         }
 
-        // 하늘상태 강수량 상태에 따라 날씨 이미지 선택
+        #region < 날씨 이미지 선택 함수>
+        // 하늘상태, 강수량 상태에 따라 날씨 이미지 선택
         public string WeaterImg(string PTYCondition, string SKYCondition, TimeSpan BaseTime)
         {
             string imagePath = null;
@@ -157,18 +171,9 @@ namespace Nobless_CHIM_SOY_Monitoring
             }
             return imagePath;
         }
+        #endregion
 
 
-
-        // 지도
-        //private void browser_IsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e)
-        //{
-
-        //    var map_url = $@"../../api2.html";
-        //    string strHtml = File.ReadAllText(map_url);
-        //    Debug.WriteLine(strHtml);
-        //    browser.LoadHtml(strHtml, "https://www.team-one.com/");
-        //}
 
         // 새로고침 DB 업데이트
         public async void UpdateDB()
@@ -185,6 +190,47 @@ namespace Nobless_CHIM_SOY_Monitoring
             Debug.WriteLine("업데이트");
             MetroWindow_Loaded(this, new RoutedEventArgs());
             await Commons.ShowMessageAsync("업데이트", "최근시간으로 업데이트 완료.");
+        }
+
+        // cctv 재생 버튼
+        private void BtnPlay_Click(object sender, RoutedEventArgs e)
+        {
+            if(CCTV_View.MediaPlayer.IsPlaying)
+            {
+                CCTV_View.MediaPlayer.Pause();
+                ImgBtnStart.Source = new BitmapImage(new Uri("./images/playbutton.png", UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                CCTV_View.MediaPlayer.Play();
+                ImgBtnStart.Source = new BitmapImage(new Uri("./images/stopbutton.png", UriKind.RelativeOrAbsolute));
+            }
+            
+        }
+        // 새창에 cctv
+        private void BtnFull_Click(object sender, RoutedEventArgs e)
+        {
+            if (CCTV_View.MediaPlayer.IsPlaying)
+            {
+                CCTV_View.MediaPlayer.Pause();
+                ImgBtnStart.Source = new BitmapImage(new Uri("./images/playbutton.png", UriKind.RelativeOrAbsolute));
+            }
+            var cctvWindow = new CCTVWindow();
+            cctvWindow.Owner = this;
+            cctvWindow.WindowStartupLocation=WindowStartupLocation.CenterScreen;
+            cctvWindow.ShowDialog();
+        }
+
+        private void browser_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var mapWindow = new MapWindow();
+            mapWindow.Owner = Application.Current.MainWindow;
+            mapWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            // 여기에서 locate_Html 값 사용 193 픽셀 값 수정
+            //int height_val = 400;
+            //string replace_Locate_Html = locate_Html.Replace("193px", $"{height_val}px");
+            //mapWindow.locateMap_browser.LoadHtml(replace_Locate_Html, "https://www.team-one.com/");
+            //mapWindow.ShowDialog();
         }
     }
 }
