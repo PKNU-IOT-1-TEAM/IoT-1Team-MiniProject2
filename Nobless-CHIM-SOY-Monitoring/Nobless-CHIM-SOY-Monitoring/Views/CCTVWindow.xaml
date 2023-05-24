@@ -8,6 +8,6 @@
         mc:Ignorable="d"
         Title="CCTVWindow" Height="763" Width="1295" Loaded="Window_Loaded">
     <Grid>
-        <vlc:VideoView Grid.Row="0" x:Name="CCTV_View" Margin="0, 4, 0, 4"></vlc:VideoView>
+        <vlc:VideoView Grid.Row="0" x:Name="CCTV_View" Background="Black"></vlc:VideoView>
     </Grid>
 </Window>

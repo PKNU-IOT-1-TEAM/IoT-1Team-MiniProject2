@@ -271,24 +271,29 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <!-- cctv-->
-            <Grid Grid.Row="0" Margin="10" x:Name="grid">
+            <Grid Grid.Row="0"  x:Name="grid" Margin="10, 10, 10, 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
-                <vlc:VideoView Grid.Row="0" x:Name="CCTV_View" Margin="0, 4, 0, 4"></vlc:VideoView>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="BtnPlay" Width="545" Click="BtnPlay_Click">
+                <vlc:VideoView Grid.Row="0" x:Name="CCTV_View" Background="Black" ></vlc:VideoView>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                
+                    <Button Grid.Column="0" x:Name="BtnPlay" Click="BtnPlay_Click">
                         <Image Name="ImgBtnStart" Source="./images/playbutton.png"></Image>
-                </Button>
-                    <Button x:Name="BtnFull" Width="30" Click="BtnFull_Click">
+                    </Button>
+                    <Button Grid.Column="1" x:Name="BtnFull" Click="BtnFull_Click">
                     <Image Source="./images/expand.png"></Image>
-                </Button>
-                </StackPanel>
+                    </Button>
+                </Grid>
 
             </Grid>
             <!-- 지도-->
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Margin="3, 0, 3, 0">
                 <cefSharp:ChromiumWebBrowser x:Name="browser" MouseDoubleClick="browser_MouseDoubleClick"/> 
             </Grid>
         </Grid>

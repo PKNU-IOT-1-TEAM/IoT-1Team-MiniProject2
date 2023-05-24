@@ -22,7 +22,7 @@ namespace Nobless_CHIM_SOY_Monitoring
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        string strHtml; // html 파일 string 값 복사해서 모달 창에 쓰기위해 할당
+        string strHtml=null; // html 파일 string 값 복사해서 모달 창에 쓰기위해 할당
         public MainWindow()
         {
             InitializeComponent();
@@ -114,6 +114,7 @@ namespace Nobless_CHIM_SOY_Monitoring
             MediaPlayer _mediaPlayer = new MediaPlayer(_libVLC);
             CCTV_View.MediaPlayer = _mediaPlayer;
             _mediaPlayer.AspectRatio = "16:9";    // 화면 비율 설정
+
             CCTV_View.MediaPlayer.Play(new Media(_libVLC, new Uri(Commons.CCTV_Url)));
             ImgBtnStart.Source = new BitmapImage(new Uri("./images/stopbutton.png", UriKind.RelativeOrAbsolute));
             #endregion
@@ -121,6 +122,7 @@ namespace Nobless_CHIM_SOY_Monitoring
             #region <지도
             var map_url = $@"../../api2.html";
             strHtml = File.ReadAllText(map_url);
+
             // Debug.WriteLine(strHtml);
             browser.LoadHtml(strHtml, "https://www.team-one.com/");
             #endregion
@@ -226,11 +228,11 @@ namespace Nobless_CHIM_SOY_Monitoring
             var mapWindow = new MapWindow();
             mapWindow.Owner = Application.Current.MainWindow;
             mapWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            // 여기에서 locate_Html 값 사용 193 픽셀 값 수정
-            //int height_val = 400;
-            //string replace_Locate_Html = locate_Html.Replace("193px", $"{height_val}px");
-            //mapWindow.locateMap_browser.LoadHtml(replace_Locate_Html, "https://www.team-one.com/");
-            //mapWindow.ShowDialog();
+            // 여기에서 locate_Html 값 사용 365 픽셀 값 수정
+            int height_val = 400;
+            string replace_Html = strHtml.Replace("193px", $"{height_val}px");
+            mapWindow.locateMap_browser.LoadHtml(replace_Html, "https://www.team-one.com/");
+            mapWindow.ShowDialog();
         }
     }
 }
