@@ -6,8 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nobless_CHIM_SOY_Monitoring.Views"
         mc:Ignorable="d"
-        Title="MapWindow" Height="450" Width="800">
-    <Grid>
+        Title="MapWindow" Height="450" Width="800" SizeChanged="Window_SizeChanged">
+    <Grid x:Name="GridMap">
         <cefSharp:ChromiumWebBrowser x:Name="locateMap_browser"/>
     </Grid>
 </Window>

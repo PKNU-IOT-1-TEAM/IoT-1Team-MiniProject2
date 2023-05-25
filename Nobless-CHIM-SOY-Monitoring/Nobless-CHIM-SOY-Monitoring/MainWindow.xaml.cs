@@ -225,13 +225,10 @@ namespace Nobless_CHIM_SOY_Monitoring
 
         private void browser_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var mapWindow = new MapWindow();
+            var mapWindow = new MapWindow(strHtml);
             mapWindow.Owner = Application.Current.MainWindow;
             mapWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             // 여기에서 locate_Html 값 사용 365 픽셀 값 수정
-            int height_val = 400;
-            string replace_Html = strHtml.Replace("193px", $"{height_val}px");
-            mapWindow.locateMap_browser.LoadHtml(replace_Html, "https://www.team-one.com/");
             mapWindow.ShowDialog();
         }
     }
