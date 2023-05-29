@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forecast_API.Logics
+namespace Nobless_CHIM_SOY_Monitoring.Logics
 {
     public class Commons
     {

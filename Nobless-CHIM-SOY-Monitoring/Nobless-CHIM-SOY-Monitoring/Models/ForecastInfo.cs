@@ -9,7 +9,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forecast_API.Models
+namespace Nobless_CHIM_SOY_Monitoring.Models
 {
     public class ForecastInfo
     {

@@ -1,5 +1,4 @@
 ﻿using CefSharp;
-using Forecast_API.Logics;
 using MahApps.Metro.Controls;
 using System;
 using System.Data;
@@ -7,13 +6,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using MySql.Data.MySqlClient;
-using Forecast_API.Models;
 using Nobless_CHIM_SOY_Monitoring.Models;
 using LibVLCSharp.Shared;
 using System.Windows.Media.Imaging;
 using LibVLCSharp.WPF;
 using System.Windows.Controls;
 using Nobless_CHIM_SOY_Monitoring.Views;
+using Nobless_CHIM_SOY_Monitoring.Logics;
+using System.Collections.Generic;
 
 namespace Nobless_CHIM_SOY_Monitoring
 {
@@ -23,6 +23,7 @@ namespace Nobless_CHIM_SOY_Monitoring
     public partial class MainWindow : MetroWindow
     {
         string strHtml=null; // html 파일 string 값 복사해서 모달 창에 쓰기위해 할당
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +33,8 @@ namespace Nobless_CHIM_SOY_Monitoring
         private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             #region <날씨>
-            ForecastUI dataUi = null;
+            List<ForecastData> forecastItems = new List<ForecastData>();
+
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(Commons.myConnString))
@@ -41,6 +43,7 @@ namespace Nobless_CHIM_SOY_Monitoring
                     // 기온, 바람, 파트 쿼리
                     var query = @"SELECT BaseDate,
 	                                     BaseTime,
+                                         FcstTime,
 	                                     T1H,
                                          RN1,
                                          REH,
@@ -62,28 +65,33 @@ namespace Nobless_CHIM_SOY_Monitoring
 	                                     ON ultrasrtfcst.SKY = sky.code
                                          JOIN pty
                                          ON ultrasrtfcst.PTY = pty.code
-                                         WHERE ultrasrtfcst.Idx=1";
+                                         ORDER BY FcstTime";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds, "forcest");
 
 
-                    var cmd = new MySqlCommand(query, conn);
-                    MySqlDataReader reader = cmd.ExecuteReader();
-
-                    if (reader.Read())
+                    foreach (DataRow row in ds.Tables["forcest"].Rows)
                     {
-                        dataUi = new ForecastUI
+                        forecastItems.Add(new ForecastData
                         {
-                            BaseDate = reader.GetDateTime("BaseDate"),
-                            BaseTime = reader.GetTimeSpan("BaseTime"),
-                            T1H = reader.GetInt32("T1H"),
-                            RN1 = reader.GetString("RN1"),
-                            REH = reader.GetInt32("REH"),
-                            VEC = reader.GetString("VEC"),
-                            WSD = reader.GetInt32("WSD"),
-                            SKYCondition = reader.GetString("SkyCondition"),
-                            PTYCondition = reader.GetString("PTYCondition")
-                        };
-                        reader.Close();
+                            BaseDate = (DateTime)row["BaseDate"],   // DB에서 DATE 형식
+                            BaseTime = (TimeSpan)row["BaseTime"],   // DB에서 TIME 형식
+                            FcstTime = (TimeSpan)(row["FcstTime"]), // DB에서 TIME 형식
+                            T1H = Convert.ToInt32(row["T1H"]),
+                            RN1 = Convert.ToString(row["RN1"]),
+                            REH = Convert.ToInt32(row["REH"]),
+                            VEC = Convert.ToString(row["VEC"]),
+                            WSD = Convert.ToInt32(row["WSD"]),
+                            SKYCondition = Convert.ToString(row["SkyCondition"]),
+                            PTYCondition = Convert.ToString(row["PTYCondition"]),
+                            ImgPath = WeaterImg(row["PTYCondition"].ToString(), row["SkyCondition"].ToString(), (TimeSpan)row["FcstTime"])
+                        });
                     }
+                    dataGrid.ItemsSource = forecastItems;   // 데이터그리드 바인딩
+                    
                 }
             }
             catch (Exception ex)
@@ -92,16 +100,13 @@ namespace Nobless_CHIM_SOY_Monitoring
             }
 
             
-            LblTemp.Content = dataUi.T1H;   // 라벨 온도
-            LblUpdateTime.Content = dataUi.BaseDate.ToString("yyyy-MM-dd") + " " + dataUi.BaseTime;    // 라벨 생성 시간
-            LblSkyCon.Content = dataUi.PTYCondition == "없음"? dataUi.SKYCondition: dataUi.PTYCondition;
-            string imagePath = WeaterImg(dataUi.PTYCondition, dataUi.SKYCondition, dataUi.BaseTime);   // 날씨 이미지
-            ImgWeather.Source = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute));
-
-            
-            LblHumid.Content = $"{dataUi.REH}%"; //라벨 습도
-            LblWind.Content = $"{dataUi.VEC} {dataUi.WSD}m/s";  // 라벨 바람
-            LblPrecipitaion.Content = dataUi.RN1 == "강수없음" ? "-" : dataUi.RN1;   // 라벨 강수량
+            LblTemp.Content = forecastItems[0].T1H;   // 라벨 온도
+            LblUpdateTime.Content = forecastItems[0].BaseDate.ToString("yyyy-MM-dd") + " " + forecastItems[0].BaseTime;    // 라벨 생성 시간
+            LblSkyCon.Content = forecastItems[0].PTYCondition == "없음"? forecastItems[0].SKYCondition: forecastItems[0].PTYCondition;
+            ImgWeather.Source = new BitmapImage(new Uri(forecastItems[0].ImgPath, UriKind.RelativeOrAbsolute));            
+            LblHumid.Content = $"{forecastItems[0].REH}%"; //라벨 습도
+            LblWind.Content = $"{forecastItems[0].VEC} {forecastItems[0].WSD}m/s";  // 라벨 바람
+            LblPrecipitaion.Content = forecastItems[0].RN1 == "강수없음" ? "-" : forecastItems[0].RN1;   // 라벨 강수량
 
             #endregion
 
@@ -116,7 +121,7 @@ namespace Nobless_CHIM_SOY_Monitoring
             _mediaPlayer.AspectRatio = "16:9";    // 화면 비율 설정
 
             CCTV_View.MediaPlayer.Play(new Media(_libVLC, new Uri(Commons.CCTV_Url)));
-            ImgBtnStart.Source = new BitmapImage(new Uri("./images/stopbutton.png", UriKind.RelativeOrAbsolute));
+            ImgBtnStart.Source = new BitmapImage(new Uri("../images/stopbutton.png", UriKind.RelativeOrAbsolute));
             #endregion
 
             #region <지도
@@ -139,13 +144,13 @@ namespace Nobless_CHIM_SOY_Monitoring
                 switch (SKYCondition)
                 {
                     case "맑음":
-                        imagePath = BaseTime < new TimeSpan(20, 0, 0) ? "./images/sunny.png" : "./images/sunny_night.png";
+                        imagePath = BaseTime < new TimeSpan(20, 0, 0) ? "../images/sunny.png" : "../images/sunny_night.png";
                         break;
                     case "구름많음":
-                        imagePath = BaseTime < new TimeSpan(20, 0, 0) ? "./images/cloud.png" : "./images/cloud_night.png";
+                        imagePath = BaseTime < new TimeSpan(20, 0, 0) ? "../images/cloud.png" : "../images/cloud_night.png";
                         break;
                     case "흐림":
-                        imagePath = "./images/cloudy.png";
+                        imagePath = "../images/cloudy.png";
                         break;
                 }
             }
@@ -154,20 +159,20 @@ namespace Nobless_CHIM_SOY_Monitoring
                 switch (PTYCondition)
                 {
                     case "비":
-                        imagePath = "./images/rain.png";
+                        imagePath = "../images/rain.png";
                         break;
                     case "비/눈":
                     case "빗방울눈날림":
-                        imagePath = "./images/snow_rain.png";
+                        imagePath = "../images/snow_rain.png";
                         break;
                     case "눈":
-                        imagePath = "./images/snow.png";
+                        imagePath = "../images/snow.png";
                         break;
                     case "빗방울":
-                        imagePath = "./images/rain_drop.png";
+                        imagePath = "../images/rain_drop.png";
                         break;
                     case "눈날림":
-                        imagePath = "./images/snow_drop.png";
+                        imagePath = "../images/snow_drop.png";
                         break;
                 }
             }
@@ -200,22 +205,22 @@ namespace Nobless_CHIM_SOY_Monitoring
             if(CCTV_View.MediaPlayer.IsPlaying)
             {
                 CCTV_View.MediaPlayer.Pause();
-                ImgBtnStart.Source = new BitmapImage(new Uri("./images/playbutton.png", UriKind.RelativeOrAbsolute));
+                ImgBtnStart.Source = new BitmapImage(new Uri("../images/playbutton.png", UriKind.RelativeOrAbsolute));
             }
             else
             {
                 CCTV_View.MediaPlayer.Play();
-                ImgBtnStart.Source = new BitmapImage(new Uri("./images/stopbutton.png", UriKind.RelativeOrAbsolute));
+                ImgBtnStart.Source = new BitmapImage(new Uri("../images/stopbutton.png", UriKind.RelativeOrAbsolute));
             }
             
         }
-        // 새창에 cctv
+        // 버튼 클릭시 cctv 모달창
         private void BtnFull_Click(object sender, RoutedEventArgs e)
         {
             if (CCTV_View.MediaPlayer.IsPlaying)
             {
                 CCTV_View.MediaPlayer.Pause();
-                ImgBtnStart.Source = new BitmapImage(new Uri("./images/playbutton.png", UriKind.RelativeOrAbsolute));
+                ImgBtnStart.Source = new BitmapImage(new Uri("../images/playbutton.png", UriKind.RelativeOrAbsolute));
             }
             var cctvWindow = new CCTVWindow();
             cctvWindow.Owner = this;
@@ -223,6 +228,7 @@ namespace Nobless_CHIM_SOY_Monitoring
             cctvWindow.ShowDialog();
         }
 
+        // 지도 더블클릭 시 지도 모달창
         private void browser_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var mapWindow = new MapWindow(strHtml);

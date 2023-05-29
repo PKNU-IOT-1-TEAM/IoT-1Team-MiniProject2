@@ -20,7 +20,7 @@ namespace Forecast_API.Models
         public int Nx { get; set; }
         public int Ny { get; set; }
         public int T1H { get; set; }    // 기온
-        public string RN1 { get; set;} // 1시간 강수량
+        public float RN1 { get; set;} // 1시간 강수량
         public int SKY { get; set;} // 하늘 상태
         public float UUU { get; set;} // 동서바람 성분
         public float VVV { get; set;} // 남북바람 성분
