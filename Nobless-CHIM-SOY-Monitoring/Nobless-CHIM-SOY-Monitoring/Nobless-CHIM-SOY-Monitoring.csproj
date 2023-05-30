@@ -241,7 +241,7 @@
     <Compile Include="Views\MapWindow.xaml.cs">
       <DependentUpon>MapWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -250,7 +250,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logics\Commons.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -265,7 +265,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ForecastInfo.cs" />
-    <Compile Include="Models\ForecastUI.cs" />
+    <Compile Include="Models\ForecastData.cs" />
     <Compile Include="Models\PushDB.cs" />
     <Compile Include="Models\RequestForecastWebApi.cs" />
     <Compile Include="Models\ResponseForecastWebApi.cs" />
@@ -298,51 +298,51 @@
   <ItemGroup>
     <Content Include="api2.html" />
     <Content Include="images\cloud.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="images\cloudy.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="images\cloud_night.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="images\forecast.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\playbutton.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\expand.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="images\rain.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="images\rain_drop.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="images\snow.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="images\snow2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\snow_drop.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="images\snow_rain.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\stopbutton.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="images\sunny.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="images\sunny_night.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

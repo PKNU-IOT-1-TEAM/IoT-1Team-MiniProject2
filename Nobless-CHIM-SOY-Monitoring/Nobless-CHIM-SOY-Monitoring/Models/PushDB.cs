@@ -1,5 +1,5 @@
-﻿using Forecast_API.Logics;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
+using Nobless_CHIM_SOY_Monitoring.Logics;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forecast_API.Models
+namespace Nobless_CHIM_SOY_Monitoring.Models
 {
     // DB 저장
     public class PushDB 

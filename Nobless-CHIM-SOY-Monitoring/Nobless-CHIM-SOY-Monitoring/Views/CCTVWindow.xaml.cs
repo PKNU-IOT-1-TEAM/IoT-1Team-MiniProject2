@@ -1,5 +1,5 @@
-﻿using Forecast_API.Logics;
-using LibVLCSharp.Shared;
+﻿using LibVLCSharp.Shared;
+using Nobless_CHIM_SOY_Monitoring.Logics;
 using System;
 using System.Windows;
 

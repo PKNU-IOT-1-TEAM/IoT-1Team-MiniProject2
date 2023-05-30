@@ -37,7 +37,7 @@ namespace Forecast_API.Models
                         + "&nx=98"
                         + "&ny=76";
         }
-        
+
         // 생성 날짜, 시간 세팅
         public void SetBaseDateTime()
         {
@@ -45,15 +45,15 @@ namespace Forecast_API.Models
 
             if (DateTime.Now.Minute >= 45)  // 매시각 현재 45분 이상이면
             {
-                BaseTime = $"{DateTime.Now.Hour}30";    // 현재 시, 30분
-            }       
+                BaseTime = $"{DateTime.Now.ToString("HH")}30";    // 현재 시, 30분
+            }
             else  // 매시각 45분 이전이면
             {
-                BaseTime = $"{DateTime.Now.Hour - 1}30"; // 1시간 전, 30분
                 if (DateTime.Now.Hour == 0) // 오전 0시 30분 이전이면 날짜도 하루전으로 바꾸기
                 {
                     BaseDate = DateTime.Now.AddDays(-1).ToString("yyyyMMdd");
                 }
+                BaseTime = $"{DateTime.Now.AddHours(-1).ToString("HH")}30"; // 1시간 전, 30분
             }
             Debug.WriteLine(BaseDate, BaseTime);
         }
@@ -106,7 +106,7 @@ namespace Forecast_API.Models
                             Nx = int.Parse(group.Key.Nx),
                             Ny = int.Parse(group.Key.Ny),
                             T1H = int.Parse(group.FirstOrDefault(item => item.Category == "T1H")?.FcstValue),
-                            RN1 = Convert.ToString(group.FirstOrDefault(item => item.Category == "RN1")?.FcstValue),
+                            RN1 = ParseIntWithNegative(group.FirstOrDefault(item => item.Category == "RN1")?.FcstValue),
                             SKY = int.Parse(group.FirstOrDefault(item => item.Category == "SKY")?.FcstValue),
                             UUU = ParseIntWithNegative(group.FirstOrDefault(item => item.Category == "UUU")?.FcstValue),
                             VVV = ParseIntWithNegative(group.FirstOrDefault(item => item.Category == "VVV")?.FcstValue),
@@ -143,15 +143,20 @@ namespace Forecast_API.Models
                 else
                 {
                     // 음수 문자열 처리
-                    bool isNegativeValue = value.StartsWith("-");   // 문자열이 "-"로 시작한다면 음수
-                    if (isNegativeValue)
+                    if (value.StartsWith("-"))
                     {
                         string absoluteValueString = value.Substring(1);
-                        bool isAbsoluteValueParseSuccessful = float.TryParse(absoluteValueString, out float absoluteValue);
-                        if (isAbsoluteValueParseSuccessful)
-                        {
-                            return -absoluteValue;
-                        }
+                        return -float.Parse(absoluteValueString);
+                    }
+
+                    if(value.EndsWith("mm"))    // 강수량 api결과 단위 포함됨... 그래서 숫자로 바꿔줌
+                    {
+                        return float.Parse(value.Replace("mm", ""));
+                    }
+                    
+                    if(value == "강수없음")
+                    {
+                        return 0;
                     }
                 }
             }

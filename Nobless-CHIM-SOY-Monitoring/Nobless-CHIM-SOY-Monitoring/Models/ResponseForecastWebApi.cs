@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Forecast_API.Models
+namespace Nobless_CHIM_SOY_Monitoring.Models
 {
     // API 응답
     public class ResponseForecastWebApi

@@ -10,7 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Forecast_API.Models
+namespace Nobless_CHIM_SOY_Monitoring.Models
 {
     // API 요청
     public class RequestForecastWebApi

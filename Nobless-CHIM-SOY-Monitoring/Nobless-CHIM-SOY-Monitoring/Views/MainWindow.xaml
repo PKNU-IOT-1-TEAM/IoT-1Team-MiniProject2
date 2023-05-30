@@ -12,7 +12,7 @@
         xmlns:local="clr-namespace:Nobless_CHIM_SOY_Monitoring"
         mc:Ignorable="d"
         Title="Nobless-CHIM-SOY-Monitoring" Height="800" Width="1100"
-        Loaded="MetroWindow_Loaded">
+        Loaded="MetroWindow_Loaded" FontFamily="NanumGothic">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
@@ -35,7 +35,7 @@
 
                 <!-- 하늘 상태 아이콘 -->
                 <Grid Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Image x:Name="ImgWeather" Source="./images/sunny.png" Width="90" Margin="0,0,5,0"/>
+                    <Image x:Name="ImgWeather" Source="../images/sunny.png" Width="90" Margin="0,0,5,0"/>
                 </Grid>
 
                 <Grid Grid.Column="1">
@@ -71,7 +71,7 @@
                 </Grid>
             </Grid>
             <!-- 습도 바람 강수량-->
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Margin="0,0,0,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
@@ -108,16 +108,30 @@
             </Grid>
             
             <!-- 시간별  -->
-            <DataGrid Grid.Row="2" ItemsSource="{Binding Data}" AutoGenerateColumns="False" Margin="5,10">
+            <DataGrid Grid.Row="2" Name="dataGrid" Margin="10" IsReadOnly="True"  Style="{StaticResource MahApps.Styles.DataGrid}" AutoGenerateColumns="False" FontSize="13" TextBlock.TextAlignment="Center">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding RowHeader}" Header="Row Header" />
-                    <DataGridTextColumn Binding="{Binding Column1}" Header="Column 1" />
-                    <!-- 추가 열 추가 -->
-                    <DataGridTextColumn Binding="{Binding Column2}" Header="Column 2" />
-                    <!-- 필요한 만큼 열을 추가할 수 있습니다 -->
+                    <DataGridTextColumn Header="시간" Binding="{Binding FcstTime, StringFormat={}{0:hh\\:mm}}" Width="1*">
+                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Header="날씨" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding ImgPath}" Height="40" Margin="5"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="기온(℃)" Binding="{Binding T1H}" Width="1.2*"/>
+                    <DataGridTextColumn Header="습도(%)" Binding="{Binding REH}" Width="1.2*"/>
+                    <DataGridTextColumn Header="풍향" Binding="{Binding VEC}" Width="1*"/>
+                    <DataGridTextColumn Header="풍속(㎧)" Binding="{Binding WSD}" Width="1.2*"/>
+                    <DataGridTextColumn Header="강수량(㎜)" Binding="{Binding RN1}" Width="1.4*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            
+
             <!-- 강물 수위-->
             <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
@@ -284,10 +298,10 @@
                     </Grid.ColumnDefinitions>
                 
                     <Button Grid.Column="0" x:Name="BtnPlay" Click="BtnPlay_Click">
-                        <Image Name="ImgBtnStart" Source="./images/playbutton.png"></Image>
+                        <Image Name="ImgBtnStart" Source="../images/playbutton.png"></Image>
                     </Button>
                     <Button Grid.Column="1" x:Name="BtnFull" Click="BtnFull_Click">
-                    <Image Source="./images/expand.png"></Image>
+                    <Image Source="../images/expand.png"></Image>
                     </Button>
                 </Grid>
 
