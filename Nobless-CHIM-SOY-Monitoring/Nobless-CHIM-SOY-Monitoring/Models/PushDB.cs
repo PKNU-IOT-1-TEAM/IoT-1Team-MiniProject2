@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace Forecast_API.Models
 {
-    public class PushDB
+    // DB 저장
+    public class PushDB 
     {
+        // DB Table 초기화
         public void TruncateDB() 
         {
             try
@@ -31,7 +33,7 @@ namespace Forecast_API.Models
 
             }
         }
-
+        // DB 삽입
         public void InsertDB(List<ForecastInfo> forecastInfos)
         {
             TruncateDB();

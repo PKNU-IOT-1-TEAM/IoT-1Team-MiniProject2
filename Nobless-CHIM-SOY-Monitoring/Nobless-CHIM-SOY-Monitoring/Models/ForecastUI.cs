@@ -12,7 +12,7 @@ namespace Nobless_CHIM_SOY_Monitoring.Models
         public TimeSpan BaseTime { get; set; }  // 생성 시간
         public DateTime FcstDate { get; set; } // 예보 날짜
         public TimeSpan FcstTime { get; set; }    // 예보 시간
-        public int Nx { get; set; }
+        public int Nx { get; set; } // 위치
         public int Ny { get; set; }
         public int T1H { get; set; }    // 기온
         public string RN1 { get; set; } // 1시간 강수량

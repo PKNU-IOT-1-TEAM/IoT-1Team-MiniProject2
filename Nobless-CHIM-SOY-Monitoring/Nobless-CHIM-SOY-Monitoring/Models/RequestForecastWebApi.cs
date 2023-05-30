@@ -59,7 +59,7 @@ namespace Forecast_API.Models
         }
 
 
-        // API 데이터 받은 후 우리가 쓸(DB에 알맞는)형태로 데이터 얻기
+        // API 데이터 받은 후, 우리가 쓸(DB에 알맞는)형태로 데이터 얻기
         public List<ForecastInfo> GetForecastWebApi()
         {
             List<ForecastInfo> transformedData = null;
@@ -68,7 +68,7 @@ namespace Forecast_API.Models
             WebRequest req = null;
             WebResponse res = null;
             StreamReader reader = null;
-            string result = string.Empty;   // API 응답 결과
+            string result = string.Empty;   // API 응답 결과담는 변수
 
             // API 요청, 응답
             try
@@ -88,7 +88,7 @@ namespace Forecast_API.Models
             {
                 Console.WriteLine($"API 조회 오류 : {ex.Message}");
             }
-            
+            //json 형식으로 
             ResponseForecastWebApi responseResult = JsonConvert.DeserializeObject<ResponseForecastWebApi>(result);
 
             try

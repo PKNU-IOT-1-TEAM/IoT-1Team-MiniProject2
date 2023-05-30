@@ -36,7 +36,7 @@ namespace Nobless_CHIM_SOY_Monitoring.Views
         {
             string replace_Html = strHtml.Replace("365", $"{GridMap.ActualHeight-20}");
             Debug.WriteLine(replace_Html);
-            locateMap_browser.LoadHtml(replace_Html, "https://www.team-one.com/");
+            locateMap_browser.LoadHtml(replace_Html, "https://www.team-one.com/");  // url는 임시로 지정
            
         }
     }
